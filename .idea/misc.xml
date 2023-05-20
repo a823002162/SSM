@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/day01" />
+    <file type="web" url="file://$PROJECT_DIR$/day01-bookstore/servlet" />
+    <file type="web" url="file://$PROJECT_DIR$/day01-father/servlet" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/day01/pom.xml" />
+        <option value="$PROJECT_DIR$/day01-father/pom.xml" />
+        <option value="$PROJECT_DIR$/day01-BookStore/pom.xml" />
+        <option value="$PROJECT_DIR$/day01-bookstore/pom.xml" />
+        <option value="$PROJECT_DIR$/day01-mybatis/pom.xml" />
+        <option value="$PROJECT_DIR$/day02-mybatis/pom.xml" />
+        <option value="$PROJECT_DIR$/day03-mybatis-generator/pom.xml" />
+        <option value="$PROJECT_DIR$/day04-spring/pom.xml" />
+        <option value="$PROJECT_DIR$/day05-spring/pom.xml" />
+        <option value="$PROJECT_DIR$/day06-spring-aop/pom.xml" />
+        <option value="$PROJECT_DIR$/day06-spring-aop02/pom.xml" />
+        <option value="$PROJECT_DIR$/day07-spring-jdbc/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/day01-BookStore/servlet/pom.xml" />
+        <option value="$PROJECT_DIR$/day01-bookstore/day01-mybatis/pom.xml" />
+        <option value="$PROJECT_DIR$/day01-father/bean/pom.xml" />
+        <option value="$PROJECT_DIR$/day01-father/dao/pom.xml" />
+        <option value="$PROJECT_DIR$/day01-father/filter/pom.xml" />
+        <option value="$PROJECT_DIR$/day01-father/service/pom.xml" />
+        <option value="$PROJECT_DIR$/day01-father/servlet/pom.xml" />
+        <option value="$PROJECT_DIR$/day01-father/tools/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_19" default="true" project-jdk-name="19" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

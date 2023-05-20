@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="day03-mybatis-generator" />
+        <module name="day06-spring-aop" />
+        <module name="servlet" />
+        <module name="day02-mybatis" />
+        <module name="day07-spring-jdbc" />
+        <module name="tools" />
+        <module name="filter" />
+        <module name="day04-spring" />
+        <module name="day01" />
+        <module name="day05-spring" />
+        <module name="dao" />
+        <module name="service" />
+        <module name="day06-spring-aop02" />
+        <module name="day01-mybatis" />
+        <module name="bean" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="day01-BookStore" target="1.8" />
+      <module name="day01-father" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

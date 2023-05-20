@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="header" th:fragment="header">
+  <div class="w">
+    <div class="header-left">
+      <a href="index.html">
+        <img src="static/img/logo.gif" alt=""
+        /></a>
+      <h1>图书管理系统</h1>
+    </div>
+    <div class="header-right">
+      <a th:href="@{BookManager(flag=showBookList)}" class="order">图书管理</a>
+      <a th:href="@{BookManager(flag=toOrderManager)}" class="destory">订单管理</a>
+      <a href="index.html" class="gohome">返回商城</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

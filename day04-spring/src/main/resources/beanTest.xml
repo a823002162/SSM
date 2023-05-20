@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="car2" class="com.atguigu.pojo.Car">
+        <property name="id" value="1"></property>
+        <property name="brandName" value="giant"></property>
+    </bean>
+
+    <bean id="person1" class="com.atguigu.pojo.Person">
+        <property name="id" value="1" ></property>
+        <property name="perName" value="jack"></property>
+        <property name="perAge" value="30"></property>
+        <property name="car" ref="car2"></property>
+        <property name="car.brandName" value="哈雷"></property>
+
+    </bean>
+</beans>

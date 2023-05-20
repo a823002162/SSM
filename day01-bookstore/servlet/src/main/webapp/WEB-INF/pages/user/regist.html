@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base th:href="@{/}">
+    <meta charset="UTF-8"/>
+    <title>尚硅谷会员注册页面</title>
+    <link type="text/css" rel="stylesheet" href="static/css/style.css"/>
+    <link rel="stylesheet" href="static/css/register.css"/>
+    <style type="text/css">
+        .login_form {
+            height: 420px;
+            margin-top: 25px;
+        }
+    </style>
+    <script src="static/script/vue.js"></script>
+    <script src="static/script/axios.js"></script>
+
+</head>
+<body>
+<div id="login_header">
+    <a href="index.html">
+        <img class="logo_img" alt="" src="static/img/logo.gif"/>
+    </a>
+</div>
+
+<div class="login_banner">
+    <div class="register_form">
+        <h1>注册尚硅谷会员</h1>
+        <form th:action="@{user?flag=registry}" id="app" method="post">
+            <div class="form-item">
+                <div>
+                    <label>用户名称:</label>
+                    <input type="text" placeholder="请输入用户名" v-model="username" name="username" @blur="check"/>   <span  :style="NG">x</span><span  :style="OK">√</span>
+                </div>
+                <span class="errMess" :style="usernameErr">用户名应为6~16位数组和字母组成</span>
+            </div>
+            <div class="form-item">
+                <div>
+                    <label>用户密码:</label>
+                    <input type="password" placeholder="请输入密码" v-model="password" name="password"/>
+                </div>
+                <span class="errMess" :style="passwordErr">密码的长度至少为8位</span>
+            </div>
+            <div class="form-item">
+                <div>
+                    <label>确认密码:</label>
+                    <input type="password" placeholder="请输入确认密码" v-model="confirm"/>
+                </div>
+                <span class="errMess" :style="confirmErr">密码两次输入不一致</span>
+            </div>
+            <div class="form-item">
+                <div>
+                    <label>用户邮箱:</label>
+                    <input type="email" placeholder="请输入邮箱" required v-model="email" name="email"/>
+                </div>
+                <span class="errMess">请输入正确的邮箱格式</span>
+            </div>
+            <div class="form-item">
+                <div>
+                    <label>验证码:</label>
+                    <div class="verify">
+                        <input type="text" placeholder="" v-model="verifyCode" name="verifyCode" @blur="checkCode"/>
+                        <!--验证码的图片路径交给verify请求来出来,google的验证码生成jar包-->
+                        <img src="verify" alt="" style="width:100px;height:40px" @click="changeImg"/>
+                    </div>
+                </div>
+                <span :style="codeStyle">验证码输入有误,请重新输入</span>
+<!--                <span class="errMess" th:text="${session.errMessage}">请输入正确的验证码</span>-->
+<!--                <span  th:text="${session.errMessage}" >{{verifycode}}</span>-->
+<!--                <span th:text="${session.remove(errMessage)}" stype="display :none"></span>-->
+            </div>
+            <button class="btn" @click="registry" :disabled="status" :style="colorful">注册</button>
+        </form>
+    </div>
+</div>
+<div id="bottom">
+      <span>
+        尚硅谷书城.Copyright &copy;2023
+      </span>
+</div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            show: "visibility:visible",
+            hidden: "visibility:hidden",
+            username: "",
+            password: "",
+            confirm: "",
+            email: "",
+            verifyCode: "",
+            codeStyle:"display:none",
+            usernameErr: "",
+            passwordErr: "",
+            confirmErr: "",
+            OK:"display:none",
+            NG:"display:none",
+            status:true,
+            colorful:"background-color:#39987c"
+        },
+        methods: {
+            registry(e) {
+                if (/\w{6,16}/.test(this.username)) {
+                    this.usernameErr = this.hidden;
+                } else {
+                    this.usernameErr = this.show;
+                    e.preventDefault();
+                }
+                if (this.password.length >= 8) {
+                    this.passwordErr = this.hidden;
+                } else {
+                    this.passwordErr = this.show;
+                    e.preventDefault();
+                }
+                if (this.password === this.confirm) {
+                    this.err = this.hidden;
+                } else {
+                    this.confirmErr = this.show;
+                    e.preventDefault();
+                }
+            },
+            changeImg(e){
+                //下面这行代码可以实现点击验证码刷新验证码
+                //将点击事件的src地址重新发请求给verify的servlet,再加上时间日期,防止浏览器不处理请求
+                e.target.src="verify?date="+new Date();
+            },
+            check(){
+                axios({
+                    url:"user",
+                    method:"get",
+                    params:{
+                        flag:"checkUsername",
+                        username: this.username
+                    }
+                }).then(response => {
+                    //如果返回结果是true,那么提交按钮(按钮默认是禁用的)就启用,反之禁用提交按钮
+                    this.status = response.data.available;
+
+                    //如果返回结果是true,那么
+                    if(response.data.available){
+                        //显示绿色的勾
+                        this.OK = "color:green;display:inline";
+                        //同时禁止显示红色的x
+                        this.NG = "color:red;display:none";
+                        //将提交按钮改成正常的绿色
+                        this.colorful = "background-color:#39987C";
+                    }else{
+                        //禁止显示绿色的勾
+                        this.OK = "color:green;display:none";
+                        //显示红色的x
+                        this.NG = "color:red;display:inline";
+                        //将提交按钮改成灰色
+                        this.colorful = "background-color:#DAE5E5FF";
+                    }
+                });
+            },
+            checkCode(){
+                axios({
+                    url:"user",
+                    method:"get",
+                    params:{
+                        flag:"checkCode",
+                        code:this.verifyCode
+                    }
+                }).then(response => {
+                    if(response.data.codeResult){
+                        //如果判断结果相等,那么什么都不做
+                        this.codeStyle = "display:none"
+                        //提交按钮改回原来的颜色,代码先放这里
+                        this.colorful = "background-color:#39987C";
+                        //同时启用提交按钮
+                        this.status = false;
+                    }else{
+                        //如果判断结果不相等,那么显示错误提示,并且字体为红色
+                        this.codeStyle = "display:inline;color:red;font-size:75%";
+                        this.colorful = "background-color:#DAE5E5FF";
+                    }
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

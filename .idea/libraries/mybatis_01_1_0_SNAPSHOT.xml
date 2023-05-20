@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="mybatis_01-1.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ssm/mybatis_01/target/mybatis_01-1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

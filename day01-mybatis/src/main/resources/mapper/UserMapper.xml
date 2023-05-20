@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--sql映射文件
+namespace="sql语句的地址"
+-->
+<mapper namespace="com.atguigu.mapper.UserMapper">
+
+    <select id="getUserById" resultType="com.atguigu.bean.User">
+        select ID id, user_name username, pwd password, Age age, Gender gender, Email email
+        from t_user
+        where ID = #{id};
+    </select>
+    <select id="getUser" resultType="com.atguigu.bean.User">
+        select ID id,user_name username, pwd password, Age age,Gender gender,Email email from t_user
+    </select>
+
+    <delete id="removeUserById" >
+        delete from t_user where ID = #{id}
+    </delete>
+
+    <update id="editUser" >
+        update t_user set user_name=#{username},pwd=#{password},Age=#{age},Gender=#{gender},Email=#{email} where ID = #{id}
+    </update>
+
+    <update id="editUserByParams">
+        update t_user set user_name=#{param1},pwd=#{param2},Age=#{param3},Gender=#{param4},Email=#{param5} where ID = #{param6}
+    </update>
+
+    <insert id="addUser">
+        insert into t_user values(null,#{username},#{password},#{age},#{gender},#{email})
+    </insert>
+
+    <insert id="addUserGetKey">
+        <selectKey keyProperty="id" resultType="int" keyColumn="ID" order="AFTER">
+            select LAST_INSERT_ID()
+        </selectKey>
+        insert into t_user values(null,#{username},#{password},#{age},#{gender},#{email})
+    </insert>
+
+    <update id="updateUserByMap">
+        update  t_user set user_name=#{name},pwd=#{passd},Age=#{ages},Gender=#{gender},Email=#{email} where ID = #{id}
+    </update>
+    
+    <insert id="addUserByMap" >
+    insert into t_user values(null,#{name},#{passd},#{ages},#{gender},#{email} )
+    </insert>
+
+</mapper>

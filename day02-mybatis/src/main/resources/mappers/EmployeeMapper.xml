@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--sql映射文件
+namespace="sql语句的地址"
+-->
+<mapper namespace="com.atguigu.mapper.EmployeeMapper">
+    <!--开启二级缓存-->
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+    <select id="getEmployeeById" resultType="com.atguigu.pojo.Employee">
+        select emp_id empId,emp_name empName,emp_salary empSalary from t_emp where emp_id = #{empId}
+    </select>
+
+    <insert id="addEmployee" useGeneratedKeys="true" keyProperty="empId">
+        insert into t_emp values(null,#{empName},#{empSalary})
+    </insert>
+
+    <insert id="addEmployeeByArgs" >
+        insert into t_emp values(null,#{arg0},#{arg1})
+    </insert>
+
+    <insert id="addEmployeeByParam" >
+        insert into t_emp values(null,#{ename},#{esalary})
+    </insert>
+
+    <insert id="addEmployeeByMap" >
+        insert into t_emp values(null,#{ename},#{salary})
+    </insert>
+
+    <update id="editEmployeeByMap">
+        update t_emp set emp_name=#{eName},emp_salary=#{eSalary} where emp_id=#{eId}
+    </update>
+
+    <select id="getEmployeeAndSalary" resultType="map">
+        select emp_id,emp_name,emp_salary,avg(emp_salary)
+        from t_emp
+        where emp_salary = (select max(emp_salary) from t_emp)
+        group by emp_id
+    </select>
+    <select id="selectAll" resultType="map">
+<!--        select * from t_emp-->
+        <include refid="baseSql" />
+    </select>
+
+    <!--使用resultMap标签自定义对应关系-->
+    <resultMap id="selectEmployeeByMap" type="com.atguigu.pojo.Employee">
+        <id column="emp_id" property="empId"/>
+        <result column="emp_name" property="empName" />
+        <result column="emp_salary" property="empSalary" />
+    </resultMap>
+    <select id="selectAllResultMap" resultMap="selectEmployeeByMap">
+        <!--select * from t_emp-->
+        <include refid="baseSql" />
+    </select>
+    <!--动态sql测试-->
+    <!--测试where if 标签-->
+    <select id="selectEmployeeByCondition" resultType="com.atguigu.pojo.Employee">
+        <!--select * from t_emp-->
+        <include refid="baseSql" />
+        <where>
+            <if test="empName != null and empName != ''">
+                and emp_name = #{empName}
+            </if>
+            <if test="empSalary > 0">
+                and emp_salary > #{empSalary}
+            </if>
+        </where>
+    </select>
+    <!--测试set标签-->
+    <update id="updateEmployeeDynamic" >
+        update t_emp
+        <set>
+            <if test="empName != null and empName != ''">
+                emp_name = #{empName},
+            </if>
+            <if test="empSalary &gt; 3000">
+                emp_salary = #{empSalary},
+            </if>
+        </set>
+        where emp_id = #{empId}
+        <!--<where>
+            <if test="empId > 0">
+                emp_id = #{empId}
+            </if>
+        </where>-->
+    </update>
+    <!--测试trim标签-->
+    <select id="selectEmployeeByConditionByTrim" resultType="com.atguigu.pojo.Employee">
+        <!--select * from t_emp-->
+        <include refid="baseSql" />
+        <trim prefix="where" prefixOverrides="and|or"  suffixOverrides="and|or" >
+            <if test="empName == 'jack'">
+                and emp_name = #{empName} or
+            </if>
+            <if test="empSalary > 2000">
+                 emp_salary &lt; #{empSalary} or
+            </if>
+            <if test="empId > 0">
+                emp_id = #{empId} or
+            </if>
+        </trim>
+    </select>
+    <!--测试choose when otherwise标签-->
+    <select id="selsectEmployeeByConditionByChoose" resultType="com.atguigu.pojo.Employee">
+        <!--select * from t_emp-->
+        <include refid="baseSql" />
+        where
+        <choose>
+            <when test="empId == 2">
+                emp_id = #{empId}
+            </when>
+            <when test="empName == 'jack'">
+                emp_name = #{empName}
+            </when>
+            <when test="empSalary > 3000">
+                emp_salary > #{empSalary}
+            </when>
+            <otherwise>1=1
+            </otherwise>
+        </choose>
+
+    </select>
+    <!--foreach之批量添加-->
+    <insert id="addEmployeeByBatch">
+        insert into t_emp values
+            <foreach collection="empList" item="emp" separator=",">
+                (null,#{emp.empName},#{emp.empSalary})
+            </foreach>
+    </insert>
+
+    <!--foreach之批量更新-->
+    <update id="updateEmployeeByBatch">
+        <foreach collection="empList" item="emp" separator=";">
+            update t_emp set emp_name = #{emp.empName},emp_salary = #{emp.empSalary} where emp_id = #{emp.empId}
+        </foreach>
+    </update>
+
+    <sql id="baseSql" >
+        select * from t_emp
+    </sql>
+    <!--foreach之批量查询-->
+    <select id="selectEmployeeByBatch" resultType="com.atguigu.pojo.Employee">
+        <include refid="baseSql" />
+        <!--select * from t_emp--> where emp_id in
+        <foreach collection="empList" item="emp" open="(" close=")" separator=",">
+            #{emp}
+        </foreach>
+    </select>
+    <select id="selectAllEmpWithCache" resultType="emp">
+        <include refid="baseSql">
+        </include>
+    </select>
+
+</mapper>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<tr th:each="book:${bookList}">
+  <td><img th:src="${book.img_path}" alt="" /></td>
+  <td th:text="${book.book_name}">活着</td>
+  <td th:text="${book.price}">100.00</td>
+  <td th:text="${book.author}">余华</td>
+  <td th:text="${book.sales}">200</td>
+  <td th:text="${book.stock}">400</td>
+  <td>
+    <a href="book_edit.html">修改</a><a href="" class="del">删除</a>
+  </td>
+</body>
+</html>

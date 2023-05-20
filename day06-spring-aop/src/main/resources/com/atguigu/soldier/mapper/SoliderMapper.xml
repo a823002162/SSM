@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--sql映射文件
+namespace="sql语句的地址"
+-->
+<mapper namespace="com.atguigu.soldier.SoldierService">
+    <insert id="saveSoldier">
+        insert into t_soldier values (null,#{soldierName})
+    </insert>
+
+    <delete id="removeSoldier">
+        delete from t_soldier where soldier_id = #{soldierId}
+    </delete>
+
+    <update id="updateSoldier">
+        update t_soldier set soldier_name=#{param2} where soldier_id = #{param1}
+    </update>
+
+    <select id="getSoldierNameById" resultType="java.lang.String">
+        select soldier_name from t_soldier where soldier_id = #{soldierId}
+    </select>
+</mapper>

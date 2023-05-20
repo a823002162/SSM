@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--sql映射文件
+namespace="sql语句的地址"
+-->
+<mapper namespace="com.atguigu.mapper.OrderMapper">
+
+    <!--一对一的关系中,要首先创建对应的resultMap对应关系-->
+    <resultMap id="OrderToCustomer" type="com.atguigu.pojo.Order">
+        <!--先设置Order自身的相关属性对应关系-->
+        <id column="order_id" property="orderId"/>
+        <result column="order_name" property="orderName"/>
+        <!--再来设置对应的customer的相关属性-->
+        <association property="customer" javaType="com.atguigu.pojo.Customer">
+            <id column="customer_id" property="customerId"/>
+            <result column="customer_name" property="customerName"/>
+        </association>
+    </resultMap>
+    <select id="getOrderWithCustomer" resultMap="OrderToCustomer">
+        select order_id,order_name,tt.customer_id ,customer_name
+        from t_order tt
+                 join t_customer tc on tt.customer_id = tc.customer_id
+                 where order_id = #{orderId}
+    </select>
+
+    <select id="getOrderByCustomerId" resultType="com.atguigu.pojo.Order">
+        select * from t_order where customer_id = #{customer_id}
+    </select>
+
+</mapper>

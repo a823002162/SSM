@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--开启自动扫描-->
+    <context:component-scan base-package="com.atguigu.spring"/>
+    <!--开启自动代理-->
+    <aop:aspectj-autoproxy/>
+
+    <!--导入外部属性文件-->
+    <context:property-placeholder location="jdbc.properties"/>
+    <!--配置数据源-->
+    <bean id="druidDataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="username" value="${jdbc.dev.username}"/>
+        <property name="password" value="${jdbc.dev.password}"/>
+        <property name="url" value="${jdbc.dev.url}"/>
+        <property name="driverClassName" value="${jdbc.dev.driver}"/>
+    </bean>
+    <!--配置jdbcTemplate-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <!--装配数据源-->
+        <property name="dataSource" ref="druidDataSource"/>
+    </bean>
+
+    <!--配置事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--事务管理器的bean里面只装配数据源,其他的属性保持默认即可-->
+        <property name="dataSource" ref="druidDataSource"/>
+    </bean>
+
+    <!--开启基于注解的声明式事务功能-->
+    <!--使用transaction-manager属性指定当前使用的是事务管理器的bean-->
+    <!--transaction-manager属性的默认值是transactionManager,如果事务管理器的id正好就是这个属性,则可以省略这个属性-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
