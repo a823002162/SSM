@@ -1,0 +1,8 @@
+com\atguigu\servlet\OrderServlet.class
+com\atguigu\servlet\BookManagerServlet.class
+com\atguigu\servlet\CartServlet.class
+com\atguigu\servlet\AdminServlet.class
+com\atguigu\servlet\base\MethodBaseServlet.class
+com\atguigu\servlet\UserServlet.class
+com\atguigu\servlet\base\ViewBaseServlet.class
+com\atguigu\servlet\IndexServlet.class
